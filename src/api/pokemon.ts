@@ -1,6 +1,6 @@
-import type { PokeAPI } from "pokeapi-types";
+import type { PokeAPI } from 'pokeapi-types';
 
-const API_URL = "https://pokeapi.co/api/v2";
+const API_URL = 'https://pokeapi.co/api/v2';
 
 export const getPokemonById = async (
 	idOrName: string | number,

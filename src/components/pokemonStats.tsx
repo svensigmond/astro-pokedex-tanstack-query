@@ -54,8 +54,8 @@ export const PokemonStats: React.FC<Readonly<Props>> = ({
 				queryKey: ['pokemon', count],
 				queryFn: () => getPokemonById(count),
 				placeholderData: (previousData) =>
-					count !== 1 ? previousData : undefined,
-				initialData: () => (count === 1 ? pokemon : undefined),
+					count !== pokemon.id ? previousData : undefined,
+				initialData: () => (count === pokemon.id ? pokemon : undefined),
 				staleTime: 1000 * 60, // 1 minute
 				select: ({ stats }) => ({
 					stats,

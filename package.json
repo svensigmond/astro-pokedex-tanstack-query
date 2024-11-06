@@ -11,8 +11,10 @@
 	},
 	"dependencies": {
 		"@astrojs/check": "^0.9.4",
+		"@astrojs/node": "^8.3.4",
 		"@astrojs/react": "^3.6.2",
 		"@astrojs/tailwind": "^5.1.2",
+		"@inox-tools/request-nanostores": "^0.1.4",
 		"@nanostores/react": "^0.8.0",
 		"@radix-ui/react-icons": "^1.3.1",
 		"@radix-ui/react-progress": "^1.1.0",

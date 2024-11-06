@@ -1,0 +1,51 @@
+---
+import DefaultLayout from '@/layouts/defaultLayout.astro';
+import { H1 } from '@/components/typography';
+import { getPokemonById } from '@/api/pokemon';
+import { PokemonHeader } from '@/components/pokemonHeader';
+import { PokemonPortrait } from '@/components/pokemonPortrait';
+import { PokemonStats } from '@/components/pokemonStats';
+import { PokemonToggle } from '@/components/pokemonToggle';
+import { PokemonTypes } from '@/components/pokemonTypes';
+import { $counterStore } from '@/stores/counterStore';
+import type { PokeAPI } from 'pokeapi-types';
+
+const { id } = Astro.params;
+
+// Params are always strings, so we need to convert it to a number
+const idAsNumber = Number(id);
+
+let data: PokeAPI.Pokemon | null = null;
+
+try {
+	data = await getPokemonById(Number(id));
+
+	$counterStore.set(idAsNumber);
+} catch (error) {
+	console.error(`Unable to fetch pokemon with id: ${id}`, error);
+}
+---
+
+<DefaultLayout>
+	<H1>Pokedex</H1>
+
+	{
+		!!data ? (
+			<div class="mt-4 flex flex-col gap-4">
+				<div>
+					<PokemonHeader pokemon={data} client:load />
+					<PokemonTypes pokemon={data} client:load />
+				</div>
+
+				<div class="grid gap-4 sm:grid-cols-[2fr,3fr] md:grid-cols-[3fr,5fr] lg:grid-cols-[1fr,2fr]">
+					<PokemonPortrait pokemon={data} client:load />
+					<PokemonStats pokemon={data} client:load />
+				</div>
+
+				<PokemonToggle pokemon={data} client:load />
+			</div>
+		) : (
+			<p>Unable to fetch pokemon with id: {id}</p>
+		)
+	}
+</DefaultLayout>

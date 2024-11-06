@@ -1,6 +1,5 @@
 import React from 'react';
 import { type PokeAPI } from 'pokeapi-types';
-import { Button } from './ui/button';
 import { useStore } from '@nanostores/react';
 import { $counterStore } from '@/stores/counterStore';
 import { useQuery } from '@tanstack/react-query';
@@ -75,8 +74,8 @@ export const PokemonTypes: React.FC<Readonly<Props>> = ({ pokemon }) => {
 				queryKey: ['pokemon', count],
 				queryFn: () => getPokemonById(count),
 				placeholderData: (previousData) =>
-					count !== 1 ? previousData : undefined,
-				initialData: () => (count === 1 ? pokemon : undefined),
+					count !== pokemon.id ? previousData : undefined,
+				initialData: () => (count === pokemon.id ? pokemon : undefined),
 				staleTime: 1000 * 60, // 1 minute
 				select: ({ types }) => ({
 					types,
@@ -97,7 +96,9 @@ export const PokemonTypes: React.FC<Readonly<Props>> = ({ pokemon }) => {
 	return (
 		<div className="flex gap-1">
 			{typesFormatted.map((type) => (
-				<Badge className={type.color}>{type.name}</Badge>
+				<Badge key={`type-${type.name}`} className={type.color}>
+					{type.name}
+				</Badge>
 			))}
 		</div>
 	);
